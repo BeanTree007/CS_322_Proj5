@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Saved Brevet Submissions</title>
+</head>
+<body>
+  <h1>Saved Brevet Submissions</h1>
+  <p><a href="{{ url_for('index') }}">Return to calculator</a></p>
+
+  {% if error %}
+    <p role="alert">{{ error }}</p>
+  {% elif not submissions %}
+    <p>No brevet submissions found.</p>
+  {% else %}
+    {% for submission in submissions %}
+      <section>
+        <h2>Brevet: {{ submission.brevet_distance_km }} km</h2>
+        <p>Start: {{ submission.start_time }}</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Distance (km)</th>
+              <th>Location</th>
+              <th>Open</th>
+              <th>Close</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for control in submission.controls %}
+              <tr>
+                <td>{{ control.distance_km }}</td>
+                <td>{{ control.location or '-' }}</td>
+                <td>{{ control.open_time }}</td>
+                <td>{{ control.close_time }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    {% endfor %}
+  {% endif %}
+</body>
+</html>
